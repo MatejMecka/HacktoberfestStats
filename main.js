@@ -25,7 +25,7 @@ function hacktoberfestStats(username, callback) {
             var contributions = [];
             var count = 2;
 
-            while ($('p').eq(count).text() !== "CHALLENGE COMPLETIONS TO-DATE") {
+               while($('p').eq(count).text().trim() !== "CHALLENGE COMPLETIONS TO-DATE" && count > $('p').length){
                 contributions.push($('p').eq(count).text());
                 count++;
             }
