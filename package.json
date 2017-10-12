@@ -24,7 +24,7 @@
     "url": "https://github.com/MatejMecka/hacktoberfeststats/issues"
   },
   "homepage": "https://github.com/MatejMecka/hacktoberfeststats#readme",
-  "dependencies" : {
+  "dependencies": {
     "request": "2.81.0",
     "cheerio": "1.0.0-rc.1"
   }
