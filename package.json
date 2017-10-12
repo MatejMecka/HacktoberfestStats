@@ -1,0 +1,31 @@
+{
+  "name": "hacktoberfeststats",
+  "version": "1.0.0",
+  "description": "This is a Module that scrapes Hacktoberfest's site and return on how you are doing",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatejMecka/hacktoberfeststats.git"
+  },
+  "keywords": [
+    "hacktoberfest",
+    "open source",
+    "scraping",
+    "opensource",
+    "stats",
+    "statistics"
+  ],
+  "author": "“Matej <“matej.plavevski+github@gmail.com”>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MatejMecka/hacktoberfeststats/issues"
+  },
+  "homepage": "https://github.com/MatejMecka/hacktoberfeststats#readme",
+  "dependencies" : {
+    "request": "2.81.0",
+    "cheerio": "1.0.0-rc.1"
+  }
+}
