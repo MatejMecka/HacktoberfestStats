@@ -17,7 +17,10 @@ var cheerio = require('cheerio');
                 var name = $('span').eq(0).text();
                 var completed = $('span').eq(2).text();
                 if(completed.split(" ")[1] !== completed){
-                        completed = "Not Completed."
+                        completed = false;
+                }
+                else{
+                        completed = true;
                 }
                 var fullCompleted = $('span').eq(2).text();
                 var progress = $('.u-textBold').eq(0).text();
