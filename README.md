@@ -4,7 +4,6 @@
 This is a Module that scrapes Hacktoberfest's site and returns information on how you are doing. 
 
 ### Dependencies:
-* Cheerio
 * Request
 
 ### Installation:
@@ -14,15 +13,10 @@ This is a Module that scrapes Hacktoberfest's site and returns information on ho
 ```js
 var Hacktoberfest = require('./main.js')
 
-Hacktoberfest("MatejMecka", function(hacktoberfestStats,error){
-
+Hacktoberfest("MatejMecka", "2017", function(hacktoberfestStats,error){
 	if (error) {
-
 		console.log(error.message)
-
-	}
-	
-	else {
+	} else {
 		console.log(statsInfo)
 	}
 
@@ -34,7 +28,6 @@ Hacktoberfest("MatejMecka", function(hacktoberfestStats,error){
 
 * Name: The Person’s first name or Username
 * Completed: Is it Completed or Not. Returns a boolean
-* Completed Message: Returns the full message
 * Progress: How many commits a user has made: ex: `11/4`
-* Contributions: All the Contributions a user did
+* Contributions: Repositories where the user did pull requests
 
