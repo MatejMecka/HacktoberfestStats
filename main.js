@@ -1,49 +1,53 @@
 'use strict';
-var request = require('request');
-var cheerio = require('cheerio');
+ var request = require('request');
 
 /**
  * Gives Hacktoberfest Statistics information
  * @param {string} username
  * @param {function} callback
  */
-function hacktoberfestStats(username, callback) {
-    request("https://hacktoberfest.digitalocean.com/stats/" + username, function (err, resp, html) {
-        if (!err && resp.statusCode == 200) {
-            var $ = cheerio.load(html);
-            var name = $('span').eq(0).text();
-            var completed = $('span').eq(2).text();
 
-            if (completed.split(" ")[1] !== completed) {
-                completed = false;
-            } else {
-                completed = true;
-            }
+var gitHubAPIURLs = ["https://api.github.com/users/%username%",
+                      "https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%"];
+const costants = {
+  minPullRequests: 4,
+}
 
-            var fullCompleted = $('span').eq(2).text();
-            var progress = $('.u-textBold').eq(0).text();
-            var contributions = [];
-            var count = 2;
 
-               while($('p').eq(count).text().trim() !== "CHALLENGE COMPLETIONS TO-DATE" && count > $('p').length){
-                contributions.push($('p').eq(count).text());
-                count++;
-            }
-
-            var statsInfo = {
-                Name: name,
-                Completed: completed,
-                CompletedMessage: fullCompleted,
-                Progress: progress,
-                Contributions: contributions
-            };
-
-            callback(statsInfo)
+function hacktoberfestStats(username, year, callback) {
+    var statsInfo = {};
+    // First API call to get GitHub user informations.
+    request.get({
+        url: gitHubAPIURLs[0].replace("%username%", username),
+        json: true,
+        headers: {'User-Agent': 'request'}
+      }, (err, res, data) => {
+        if (!err && res.statusCode == 200) {
+          statsInfo.Name = data.name;
+          // Second API call to get Hacktoberfest user informations.
+          request.get({
+              url: gitHubAPIURLs[1].replace("%username%", username).replace(new RegExp("%year%", 'g'), year),
+              json: true,
+              headers: {'User-Agent': 'request'}
+            }, (err, res, data) => {
+              if (!err && res.statusCode == 200) {
+                statsInfo.Completed = (data.total_count > 3) ? true: false;
+                statsInfo.Progress = data.total_count + "/" + costants.minPullRequests;
+                statsInfo.Contributions = [];
+                data.items.forEach(function(repository){
+                  if (repository.hasOwnProperty("repository_url")) {
+                    statsInfo.Contributions.push(repository.repository_url)
+                  }
+                });
+                callback(statsInfo);
+              } else {
+                throw new Error("There was a problem retriving the information about that account. Error Message: " + err.message)
+              }
+          });
         } else {
-            throw new Error("There was a problem retriving the information about that account. Error Message: " + err.message)
+          throw new Error("There was a problem retriving the information about that account. Error Message: " + err.message)
         }
     });
 }
 
 module.exports = hacktoberfestStats;
-
