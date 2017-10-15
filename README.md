@@ -10,7 +10,7 @@ This is a Module that scrapes Hacktoberfest's site and returns information on ho
 
 ### Usage:
 ```js
-var Hacktoberfest = require('./main.js')
+var Hacktoberfest = require('hacktoberfeststats')
 
 Hacktoberfest("MatejMecka", "2017", function(hacktoberfestStats,error){
 	if (error) {
