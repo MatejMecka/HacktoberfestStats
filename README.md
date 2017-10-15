@@ -1,5 +1,4 @@
-# HacktoberfestStats
-*THIS MODULE IS STILL NOT PUBLISHED ON NPM*
+# HacktoberfestStats [![npm version](https://badge.fury.io/js/hacktoberfeststats.svg)](https://badge.fury.io/js/hacktoberfeststats)
 
 This is a Module that scrapes Hacktoberfest's site and returns information on how you are doing. 
 
