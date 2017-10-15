@@ -16,7 +16,7 @@ Hacktoberfest("MatejMecka", "2017", function(hacktoberfestStats,error){
 	if (error) {
 		console.log(error.message)
 	} else {
-		console.log(statsInfo)
+		console.log(hacktoberfestStats)
 	}
 
 })
