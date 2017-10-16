@@ -1,7 +1,8 @@
 'use strict';
  var request = require('request');
-
+ var _ = require('underscore')
 /**
+
  * Gives Hacktoberfest Statistics information
  * @param {string} username
  * @param {function} callback
@@ -23,7 +24,7 @@ function hacktoberfestStats(username, year, callback) {
         headers: {'User-Agent': 'request'}
       }, (err, res, data) => {
         if (!err && res.statusCode == 200) {
-          statsInfo.Name = data.name;
+          statsInfo.raw = data;
           // Second API call to get Hacktoberfest user informations.
           request.get({
               url: gitHubAPIURLs[1].replace("%username%", username).replace(new RegExp("%year%", 'g'), year),
@@ -31,12 +32,16 @@ function hacktoberfestStats(username, year, callback) {
               headers: {'User-Agent': 'request'}
             }, (err, res, data) => {
               if (!err && res.statusCode == 200) {
-                statsInfo.Completed = (data.total_count > 3) ? true: false;
-                statsInfo.Progress = data.total_count + "/" + costants.minPullRequests;
-                statsInfo.Contributions = [];
-                data.items.forEach(function(repository){
+                statsInfo.raw = _.extend(statsInfo.raw, data);
+                statsInfo.mainStats = {
+                  Name: statsInfo.raw.Name,
+                  Completed: (statsInfo.raw.total_count > 3) ? true: false,
+                  Progress: statsInfo.raw.total_count + "/" + costants.minPullRequests,
+                  Contributions: []
+                }
+                statsInfo.raw.items.forEach(function(repository){
                   if (repository.hasOwnProperty("repository_url")) {
-                    statsInfo.Contributions.push(repository.repository_url)
+                    statsInfo.mainStats.Contributions.push(repository.repository_url)
                   }
                 });
                 callback(statsInfo);

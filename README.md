@@ -1,9 +1,10 @@
 # HacktoberfestStats [![npm version](https://badge.fury.io/js/hacktoberfeststats.svg)](https://badge.fury.io/js/hacktoberfeststats)
 
-This is a Module that scrapes Hacktoberfest's site and returns information on how you are doing. 
+This is a Module that scrapes Hacktoberfest's site and returns information on how you are doing.
 
 ### Dependencies:
 * Request
+* Underscore
 
 ### Installation:
 `npm install hacktoberfestStats`
@@ -16,17 +17,19 @@ Hacktoberfest("MatejMecka", "2017", function(hacktoberfestStats,error){
 	if (error) {
 		console.log(error.message)
 	} else {
-		console.log(hacktoberfestStats)
+		console.log(hacktoberfestStats.mainStat)
 	}
-
 })
-
 ```
 
 ### Options:
 
+The callback function receive an object that contain two properties:
+
+*mainStats*:
 * Name: The Person’s first name or Username
 * Completed: Is it Completed or Not. Returns a boolean
 * Progress: How many commits a user has made: ex: `11/4`
 * Contributions: Repositories where the user did pull requests
 
+*raw*: an object with all informations about GitHub user and the informations on his activities made in October.
