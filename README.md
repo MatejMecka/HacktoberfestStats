@@ -3,6 +3,7 @@
 # HacktoberfestStats
 *THIS MODULE IS STILL NOT PUBLISHED ON NPM*
 
+
 This Module can be used to retrive all informations about a given GitHub user within Hacktoberfest's event.
 
 ### Dependencies:
@@ -14,7 +15,7 @@ This Module can be used to retrive all informations about a given GitHub user wi
 
 ### Usage:
 ```js
-var Hacktoberfest = require('./main.js')
+var Hacktoberfest = require('hacktoberfeststats')
 
 Hacktoberfest("MatejMecka", "2017", function(hacktoberfestStats,error){
 	if (error) {

@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/MatejMecka/hacktoberfeststats#readme",
   "dependencies": {
-    "cheerio": "1.0.0-rc.1",
     "request": "2.81.0",
     "underscore": "^1.8.3"
   }
