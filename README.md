@@ -3,7 +3,6 @@
 # HacktoberfestStats
 *THIS MODULE IS STILL NOT PUBLISHED ON NPM*
 
-
 This Module can be used to retrive all informations about a given GitHub user within Hacktoberfest's event.
 
 ### Dependencies:
