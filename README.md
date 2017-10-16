@@ -1,7 +1,9 @@
+[![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # HacktoberfestStats
 *THIS MODULE IS STILL NOT PUBLISHED ON NPM*
 
-This is a Module that scrapes Hacktoberfest's site and returns information on how you are doing.
+This Module can be used to retrive all informations about a given GitHub user within Hacktoberfest's event.
 
 ### Dependencies:
 * Request
