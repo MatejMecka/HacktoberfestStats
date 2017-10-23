@@ -8,18 +8,18 @@ var _ = require('underscore')
  * @param {function} callback
  */
 
-var gitHubAPIURLs = ['https://api.github.com/users/%username%',
-	'https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%']
 const costants = {
 	minPullRequests: 4,
 }
 
 
 function hacktoberfestStats(username, year, callback) {
+	const GITHUB_API_USER = `https://api.github.com/users/${username}`
+	const GITHUB_API_ISSUES = `https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:${year}-09-30T00:00:00-12:00..${year}-10-31T23:59:59-12:00+type:pr+is:public+author:${username}`
 	var statsInfo = {}
 	// First API call to get GitHub user informations.
 	request.get({
-		url: gitHubAPIURLs[0].replace('%username%', username),
+		url: GITHUB_API_USER,
 		json: true,
 		headers: {'User-Agent': 'request'}
 	}, (err, res, data) => {
@@ -27,7 +27,7 @@ function hacktoberfestStats(username, year, callback) {
 			statsInfo.raw = data
 			// Second API call to get Hacktoberfest user informations.
 			request.get({
-				url: gitHubAPIURLs[1].replace('%username%', username).replace(new RegExp('%year%', 'g'), year),
+				url: GITHUB_API_ISSUES,
 				json: true,
 				headers: {'User-Agent': 'request'}
 			}, (err, res, data) => {
