@@ -1,7 +1,4 @@
-[![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-# HacktoberfestStats
-*THIS MODULE IS STILL NOT PUBLISHED ON NPM*
+# HacktoberfestStats [![npm version](https://badge.fury.io/js/hacktoberfeststats.svg)](https://badge.fury.io/js/hacktoberfeststats)   [ ![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This Module can be used to retrive all informations about a given GitHub user within Hacktoberfest's event.
 
