@@ -34,7 +34,7 @@ function hacktoberfestStats(username, year, callback) {
 				if (!err && res.statusCode == 200) {
 					statsInfo.raw = _.extend(statsInfo.raw, data)
 					statsInfo.mainStats = {
-						Name: statsInfo.raw.Name,
+						Name: statsInfo.raw.login,
 						Completed: (statsInfo.raw.total_count > 3) ? true: false,
 						Progress: statsInfo.raw.total_count + '/' + costants.minPullRequests,
 						Contributions: []
