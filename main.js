@@ -9,9 +9,8 @@ var _ = require('underscore')
  */
 
 const costants = {
-	minPullRequests: 4,
+  minPullRequests: 4
 }
-
 
 function hacktoberfestStats(username, year, callback) {
 	const GITHUB_API_USER = `https://api.github.com/users/${username}`
@@ -34,7 +33,7 @@ function hacktoberfestStats(username, year, callback) {
 				if (!err && res.statusCode == 200) {
 					statsInfo.raw = _.extend(statsInfo.raw, data)
 					statsInfo.mainStats = {
-						Name: statsInfo.raw.Name,
+						Name: statsInfo.raw.login,
 						Completed: (statsInfo.raw.total_count > 3) ? true: false,
 						Progress: statsInfo.raw.total_count + '/' + costants.minPullRequests,
 						Contributions: []
@@ -53,7 +52,54 @@ function hacktoberfestStats(username, year, callback) {
 			throw new Error('There was a problem retriving the information about that account. Error Message: ' + err.message)
 		}
 	})
+
+  var statsInfo = {}
+  // First API call to get GitHub user informations.
+  request.get(
+    {
+      url: gitHubAPIURLs[0].replace('%username%', username),
+      json: true,
+      headers: { 'User-Agent': 'request' }
+    },
+    (err, res, data) => {
+      if (!err && res.statusCode == 200) {
+        statsInfo.raw = data
+        // Second API call to get Hacktoberfest user informations.
+        request.get(
+          {
+            url: gitHubAPIURLs[1].replace('%username%', username).replace(new RegExp('%year%', 'g'), year),
+            json: true,
+            headers: { 'User-Agent': 'request' }
+          },
+          (err, res, data) => {
+            if (!err && res.statusCode == 200) {
+              statsInfo.raw = _.extend(statsInfo.raw, data)
+              statsInfo.mainStats = {
+                Name: statsInfo.raw.login,
+                Completed: statsInfo.raw.total_count > 3 ? true : false,
+                Progress: statsInfo.raw.total_count + '/' + costants.minPullRequests,
+                Contributions: []
+              }
+              statsInfo.raw.items.forEach(function(repository) {
+                if (repository.hasOwnProperty('repository_url')) {
+                  statsInfo.mainStats.Contributions.push(repository.repository_url)
+                }
+              })
+              callback(statsInfo)
+            } else {
+              throw new Error(
+                'There was a problem retriving the information about that account. Error Message: ' + err.message
+              )
+            }
+          }
+        )
+      } else {
+        throw new Error(
+          'There was a problem retriving the information about that account. Error Message: ' + err.message
+        )
+      }
+    }
+  )
 }
 
 module.exports = hacktoberfestStats
-

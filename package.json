@@ -4,7 +4,8 @@
   "description": "This is a Module that scrapes Hacktoberfest's site and return on how you are doing",
   "main": "main.js",
   "scripts": {
-    "test": "eslint main.js && ./node_modules/mocha/bin/mocha"
+    "test": "eslint main.js && mocha",
+    "format": "node_modules/.bin/prettier-eslint --config ./.prettierrc --write \"**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -25,14 +26,15 @@
   },
   "homepage": "https://github.com/MatejMecka/hacktoberfeststats#readme",
   "dependencies": {
-    "underscore": "^1.8.3",
-    "request": "2.81.0"
+    "request": "2.81.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "prettier-eslint-cli": "^4.4.0"
   }
 }
