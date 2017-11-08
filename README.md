@@ -7,7 +7,7 @@ This Module can be used to retrieve all information about a given GitHub user wi
 * Underscore
 
 ### Installation:
-`npm install hacktoberfestStats`
+`npm install hacktoberfeststats`
 
 ### Usage:
 ```js
