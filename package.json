@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/MatejMecka/hacktoberfeststats#readme",
   "dependencies": {
+    "package.json": "^2.0.1",
     "request": "2.81.0",
     "underscore": "^1.8.3"
   },
