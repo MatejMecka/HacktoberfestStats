@@ -14,9 +14,19 @@ const getMinPullRequests = year => {
   }
 }
 
-const _getUserInfo = username => new Promise((resolve, reject) => {
+const _getSimpleQuery = url => new Promise((resolve, reject) => {
   request.get({
-    url: gitHubAPIURLs.getUser.replace('%username%', username),
+    url,
+    headers: { 'User-Agent': 'request' }
+  }, (err, res, data) => {
+    if (!err && res.statusCode == 200) resolve(data)
+    reject(err)
+  })
+})
+
+const _query = url => new Promise((resolve, reject) => {
+  request.get({
+    url: url,
     headers: { 'User-Agent': 'request' }
   }, (err, res, data) => {
     if (!err && res.statusCode == 200) resolve(data)
@@ -33,15 +43,16 @@ const jsonPipe = body => JSON.parse(body)
  * If the callback is omitted, we'll return a Promise
  */
 const getUserInfo = (username, callback) => {
+  const url = gitHubAPIURLs.getUser.replace('%username%', username)
   if (callback) {
-    _getUserInfo(username)
+    _query(url)
       .then(jsonPipe)
       .then(result => callback(result))
       .catch(err => {throw new Error(
-        'There was a problem retrieving the information about that account. Error Message: ' + err ? err.message : ''
+        'There was a problem retrieving the information about that account. Error Message: ' + (err ? err.message : '')
       )})
   } else {
-    return _getUserInfo(username).then(jsonPipe)
+    return _query(url).then(jsonPipe)
   }
 }
 
@@ -50,7 +61,7 @@ function hacktoberfestStats(username, year, callback) {
   // First API call to get GitHub user informations.
   request.get(
     {
-      url: gitHubAPIURLs[0].replace('%username%', username),
+      url: gitHubAPIURLs.getPullRequests.replace('%username%', username),
       json: true,
       headers: { 'User-Agent': 'request' }
     },
