@@ -12,8 +12,12 @@ var gitHubAPIURLs = [
   'https://api.github.com/users/%username%',
   'https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%'
 ]
-const costants = {
-  minPullRequests: 4
+
+const getMinPullRequests = year => {
+  switch (year) {
+  case 2018: return 5
+  default: return 4
+  }
 }
 
 function hacktoberfestStats(username, year, callback) {
@@ -36,12 +40,13 @@ function hacktoberfestStats(username, year, callback) {
             headers: { 'User-Agent': 'request' }
           },
           (err, res, data) => {
+            const minPullRequest = getMinPullRequests(year);
             if (!err && res.statusCode == 200) {
               statsInfo.raw = _.extend(statsInfo.raw, data)
               statsInfo.mainStats = {
                 Name: statsInfo.raw.name,
-                Completed: statsInfo.raw.total_count > 3 ? true : false,
-                Progress: statsInfo.raw.total_count + '/' + costants.minPullRequests,
+                Completed: !!(statsInfo.raw.total_count === minPullRequest),
+                Progress: statsInfo.raw.total_count + '/' + minPullRequest,
                 Contributions: []
               }
               statsInfo.raw.items.forEach(function(repository) {
@@ -58,12 +63,13 @@ function hacktoberfestStats(username, year, callback) {
           }
         )
       } else {
-        throw new Error(
-          'There was a problem retriving the information about that account. Error Message: ' + err.message
-        )
+        // throw new Error(
+        //   'There was a problem retriving the information about that account. Error Message: ' + err.message
+        // )
       }
     }
   )
 }
 
+hacktoberfestStats('alejofernandez', 2017, console.log)
 module.exports = hacktoberfestStats
