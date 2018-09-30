@@ -1,6 +1,5 @@
 'use strict'
 var request = require('request')
-var _ = require('underscore')
 
 const gitHubAPIURLs = {
   getUser: 'https://api.github.com/users/%username%',
