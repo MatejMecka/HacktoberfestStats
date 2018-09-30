@@ -1,22 +1,47 @@
 'use strict'
 var request = require('request')
 var _ = require('underscore')
-/**
 
- * Gives Hacktoberfest Statistics information
- * @param {string} username
- * @param {function} callback
- */
-
-var gitHubAPIURLs = [
-  'https://api.github.com/users/%username%',
-  'https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%'
-]
+const gitHubAPIURLs = {
+  getUser: 'https://api.github.com/users/%username%',
+  getPullRequests: 'https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%'
+}
 
 const getMinPullRequests = year => {
   switch (year) {
   case 2018: return 5
   default: return 4
+  }
+}
+
+const _getUserInfo = username => new Promise((resolve, reject) => {
+  request.get({
+    url: gitHubAPIURLs.getUser.replace('%username%', username),
+    headers: { 'User-Agent': 'request' }
+  }, (err, res, data) => {
+    if (!err && res.statusCode == 200) resolve(data)
+    reject(err)
+  })
+})
+
+const jsonPipe = body => JSON.parse(body)
+
+/**
+ * Returns user information
+ * @param {string} username
+ * @param {function} callback
+ * If the callback is omitted, we'll return a Promise
+ */
+const getUserInfo = (username, callback) => {
+  if (callback) {
+    _getUserInfo(username)
+      .then(jsonPipe)
+      .then(result => callback(result))
+      .catch(err => {throw new Error(
+        'There was a problem retrieving the information about that account. Error Message: ' + err ? err.message : ''
+      )})
+  } else {
+    return _getUserInfo(username).then(jsonPipe)
   }
 }
 
@@ -40,7 +65,7 @@ function hacktoberfestStats(username, year, callback) {
             headers: { 'User-Agent': 'request' }
           },
           (err, res, data) => {
-            const minPullRequest = getMinPullRequests(year);
+            const minPullRequest = getMinPullRequests(year)
             if (!err && res.statusCode == 200) {
               statsInfo.raw = _.extend(statsInfo.raw, data)
               statsInfo.mainStats = {
@@ -71,5 +96,5 @@ function hacktoberfestStats(username, year, callback) {
   )
 }
 
-hacktoberfestStats('alejofernandez', 2017, console.log)
-module.exports = hacktoberfestStats
+// exports.getHacktoberfestStats = getHacktoberfestStats
+exports.getUserInfo = getUserInfo
