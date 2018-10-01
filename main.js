@@ -18,6 +18,13 @@ const costants = {
 
 function hacktoberfestStats(username, year, callback) {
   var statsInfo = {}
+
+  // Default year is the actualYear
+  if (!year) {
+    const actualYear = new Date()
+    year = actualYear.getFullYear()
+  }
+
   // First API call to get GitHub user informations.
   request.get(
     {
