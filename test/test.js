@@ -1,9 +1,17 @@
-var expect = require('chai').expect
-var Hacktoberfest = require('../main.js')
+const expect = require('chai').expect
+const { getHacktoberfestStats } = require('../main.js')
 
-it('Check if Hacktoberfeststats work', function(done) {
-  Hacktoberfest('MatejMecka', '2017', function(hacktoberfestStats, error) {
-    expect(hacktoberfestStats.mainStats.Name).to.equal('Matej Plavevski')
+it('Check if Hacktoberfeststats (callback) work', function(done) {
+  getHacktoberfestStats('MatejMecka', '2017', stats => {
+    expect(stats.current).to.equal(15)
     done()
   })
+})
+
+it('Check if Hacktoberfeststats (promise) work', function(done) {
+  getHacktoberfestStats('MatejMecka', '2017')
+    .then(stats => {
+      expect(stats.current).to.equal(15)
+      done()
+    })
 })
