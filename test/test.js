@@ -15,3 +15,8 @@ it('Check if Hacktoberfeststats (promise) work', function(done) {
       done()
     })
 })
+
+it('Check if Hacktoberfeststats throws an error', function(done) {
+  expect(getHacktoberfestStats.bind(getHacktoberfestStats, 'MatejMecka', '3000')).to.throw()
+  done()
+})

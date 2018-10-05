@@ -13,6 +13,13 @@ const getMinPullRequests = year => {
   }
 }
 
+const _checkForValidYear = (year) => {
+  let currentYear = new Date().getFullYear()
+  if (year > currentYear) {
+    throw new Error('Invalid year provided. The year must be less than or equal to the current year')
+  }
+}
+
 const _query = url => new Promise((resolve, reject) => {
   request.get({
     url: url,
@@ -72,7 +79,14 @@ const getHacktoberfestStats = (username, year, callback) => {
     callback = year
     year = undefined
   }
-  year = year || new Date().getFullYear()
+
+  if (year) {
+    // check for valid year
+    _checkForValidYear(year)
+  } else {
+    year = new Date().getFullYear()
+  }
+
   const url = gitHubAPIURLs.getPullRequests.replace('%username%', username).replace(new RegExp('%year%', 'g'), year)
   const minPullRequest = getMinPullRequests(year)
   return _processResult(url, callback, _transformHacktoberfestResult(minPullRequest))
