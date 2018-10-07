@@ -1,6 +1,6 @@
 {
   "name": "hacktoberfeststats",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "This is a Module that scrapes Hacktoberfest's site and return on how you are doing",
   "main": "main.js",
   "scripts": {
