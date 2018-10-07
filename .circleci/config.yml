@@ -7,18 +7,18 @@ jobs:
   steps:
     - checkout
     - run:
-      name: Update NPM
-      command: 'sudo npm install -g npm@latest'
+        name: Update NPM
+        command: 'sudo npm install -g npm@latest'
     - restore_cache: # special step to restore the dependency cache 
-      key: dependency-cache-{{ checksum "package.json" }}
+       key: dependency-cache-{{ checksum "package.json" }}
     - run:
-      name: Install NPM dependencies
-      command: 'npm install package.json'
+        name: Install NPM dependencies
+        command: 'npm install package.json'
     - save_cache: # special step to save the dependency cache
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
     - run:
-      name: Testing HacktoberFest Stats!
-      command: 'npm test'
+        name: Testing HacktoberFest Stats!
+        command: 'npm test'
     
