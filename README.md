@@ -13,7 +13,7 @@ This Module can be used to retrieve all information about a given GitHub user wi
 ```js
 var Hacktoberfest = require('hacktoberfeststats')
 
-Hacktoberfest("MatejMecka", "2017", function(hacktoberfestStats,error){
+Hacktoberfest("MatejMecka", "2018", function(hacktoberfestStats,error){
 	if (error) {
 		console.log(error.message)
 	} else {
