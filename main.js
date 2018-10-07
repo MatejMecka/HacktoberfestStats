@@ -18,6 +18,9 @@ const _checkForValidYear = (year) => {
   if (year > currentYear) {
     throw new Error('Invalid year provided. The year must be less than or equal to the current year')
   }
+  if(year < 2013){
+    throw new Error('Hacktoberfest started in 2013. Year must be equal to or above 2014!')
+  }
 }
 
 const _query = url => new Promise((resolve, reject) => {
