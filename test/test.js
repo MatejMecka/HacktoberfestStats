@@ -9,11 +9,10 @@ it('Check if Hacktoberfeststats (callback) work', function(done) {
 })
 
 it('Check if Hacktoberfeststats (promise) work', function(done) {
-  getHacktoberfestStats('MatejMecka', '2017')
-    .then(stats => {
-      expect(stats.current).to.equal(15)
-      done()
-    })
+  getHacktoberfestStats('MatejMecka', '2017').then(stats => {
+    expect(stats.current).to.equal(15)
+    done()
+  })
 })
 
 it('Check if Hacktoberfeststats throws an error', function(done) {

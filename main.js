@@ -3,47 +3,58 @@ var request = require('request')
 
 const gitHubAPIURLs = {
   getUser: 'https://api.github.com/users/%username%',
-  getPullRequests: 'https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%'
+  getPullRequests:
+    'https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%'
 }
 
 const getMinPullRequests = year => {
   switch (year) {
-  case 2018: return 5
-  default: return 4
+  case 2018:
+    return 5
+  default:
+    return 4
   }
 }
 
-const _checkForValidYear = (year) => {
+const _checkForValidYear = year => {
   let currentYear = new Date().getFullYear()
   if (year > currentYear) {
     throw new Error('Invalid year provided. The year must be less than or equal to the current year')
   }
-  if(year < 2013){
+  if (year < 2013) {
     throw new Error('Hacktoberfest started in 2013. Year must be equal to or above 2013!')
   }
 }
 
-const _query = url => new Promise((resolve, reject) => {
-  request.get({
-    url: url,
-    headers: { 'User-Agent': 'request' }
-  }, (err, res, data) => {
-    if (!err && res.statusCode == 200) resolve(data)
-    reject(err)
+const _query = url =>
+  new Promise((resolve, reject) => {
+    request.get(
+      {
+        url: url,
+        headers: { 'User-Agent': 'request' }
+      },
+      (err, res, data) => {
+        if (!err && res.statusCode == 200) resolve(data)
+        reject(err)
+      }
+    )
   })
-})
 
 const _processResult = (url, callback, transform) => {
   if (callback) {
     _query(url)
       .then(jsonPipe)
-      .then(data => transform ? transform(data) : data)
+      .then(data => (transform ? transform(data) : data))
       .then(result => callback(result))
-      .catch(err => {throw new Error(
-        'There was a problem retrieving information for this account. Error Message: ' + (err ? err.message : '')
-      )})
+      .catch(err => {
+        throw new Error(
+          'There was a problem retrieving information for this account. Error Message: ' + (err ? err.message : '')
+        )
+      })
   } else {
-    return _query(url).then(jsonPipe).then(data => transform ? transform(data) : data)
+    return _query(url)
+      .then(jsonPipe)
+      .then(data => (transform ? transform(data) : data))
   }
 }
 
