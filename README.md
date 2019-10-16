@@ -29,7 +29,7 @@ The callback function receives an object that contains two properties:
 *mainStats*:
 * Name: The person’s first name or username
 * Completed: Is it Completed or Not. Returns a boolean
-* Progress: How many commits a user has made: ex: `11/4`
+* Progress: How many pull requests a user has made: ex: `11/4`
 * Contributions: Repositories where the user did pull requests
 
 *raw*: an object with all information about GitHub user and his/her activities made in October.
