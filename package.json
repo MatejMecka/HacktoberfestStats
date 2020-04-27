@@ -27,7 +27,7 @@
   "homepage": "https://github.com/MatejMecka/hacktoberfeststats#readme",
   "dependencies": {
     "package.json": "^2.0.1",
-    "request": "^2.88.0"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
