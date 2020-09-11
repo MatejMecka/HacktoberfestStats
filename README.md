@@ -5,11 +5,23 @@ This Module can be used to retrieve all information about a given GitHub user wi
 ### Dependencies:
 * Request
 * Underscore
+* Meow
 
 ### Installation:
 `npm install hacktoberfeststats`
 
 ### Usage:
+
+#### CLI
+
+```sh
+npx hacktoberfeststats MatejMecka # current year
+npx hacktoberfeststats MatejMecka -y 2018
+npx hacktoberfeststats MatejMecka --year 2018
+```
+
+#### API
+
 ```js
 var Hacktoberfest = require('hacktoberfeststats')
 

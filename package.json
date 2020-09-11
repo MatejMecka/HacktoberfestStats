@@ -3,8 +3,11 @@
   "version": "3.0.0",
   "description": "This is a Module that scrapes Hacktoberfest's site and return on how you are doing",
   "main": "main.js",
+  "bin": {
+    "hacktoberfeststats": "./cli.js"
+  },
   "scripts": {
-    "test": "eslint main.js && mocha",
+    "test": "eslint main.js cli.js && mocha",
     "format": "node_modules/.bin/prettier-eslint --config ./.prettierrc --write \"**/*.js\""
   },
   "repository": {
@@ -26,6 +29,7 @@
   },
   "homepage": "https://github.com/MatejMecka/hacktoberfeststats#readme",
   "dependencies": {
+    "meow": "^7.1.1",
     "package.json": "^2.0.1",
     "request": "^2.88.2"
   },
