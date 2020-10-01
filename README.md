@@ -42,7 +42,7 @@ getHacktoberfestStats('MatejMecka', '2018').then(stats => {
 
 ### Options:
 
-The callback function receives an object that contains two properties:
+The callback function receives an object that contains these properties:
 
 *mainStats*:
 * Name: The person’s first name or username
@@ -51,5 +51,3 @@ The callback function receives an object that contains two properties:
 * Progress: How many pull requests a user has made: ex: `11/4`
 * Contributions: Repositories where the user did pull requests
 * Required: The Number of required pull requests for that year. - Array with URL's linking to Pull Requests
-
-*raw*: an object with all information about GitHub user and his/her activities made in October.
