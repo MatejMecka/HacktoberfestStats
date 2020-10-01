@@ -23,7 +23,7 @@ npx hacktoberfeststats MatejMecka --year 2018
 #### API
 
 ```js
-const { getHacktoberfestStats } = require('../main.js')	
+const { getHacktoberfestStats } = require('hacktoberfeststats')	
 
 // Using Callbacks
 getHacktoberfestStats("MatejMecka", "2018", function(hacktoberfestStats,error){
