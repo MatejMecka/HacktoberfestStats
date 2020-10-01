@@ -36,7 +36,7 @@ getHacktoberfestStats("MatejMecka", "2018", function(hacktoberfestStats,error){
 
 // Using Promises
 getHacktoberfestStats('MatejMecka', '2018').then(stats => {
-    console.log()
+    console.log(stats)
 })
 ```
 
