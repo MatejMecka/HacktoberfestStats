@@ -23,25 +23,31 @@ npx hacktoberfeststats MatejMecka --year 2018
 #### API
 
 ```js
-var Hacktoberfest = require('hacktoberfeststats')
+const { getHacktoberfestStats } = require('../main.js')	
 
-Hacktoberfest("MatejMecka", "2018", function(hacktoberfestStats,error){
+// Using Callbacks
+getHacktoberfestStats("MatejMecka", "2018", function(hacktoberfestStats,error){
 	if (error) {
 		console.log(error.message)
 	} else {
-		console.log(hacktoberfestStats.mainStat)
+		console.log(hacktoberfestStats)
 	}
+})
+
+// Using Promises
+getHacktoberfestStats('MatejMecka', '2018').then(stats => {
+    console.log()
 })
 ```
 
 ### Options:
 
-The callback function receives an object that contains two properties:
+The callback function receives an object that contains these properties:
 
 *mainStats*:
 * Name: The person’s first name or username
 * Completed: Is it Completed or Not. Returns a boolean
+* Current: Integer - Number of pull requests
 * Progress: How many pull requests a user has made: ex: `11/4`
 * Contributions: Repositories where the user did pull requests
-
-*raw*: an object with all information about GitHub user and his/her activities made in October.
+* Required: The Number of required pull requests for that year. - Array with URL's linking to Pull Requests
