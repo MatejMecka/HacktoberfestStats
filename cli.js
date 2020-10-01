@@ -4,7 +4,18 @@
 var meow = require('meow')
 var hacktoberFest = require('./main.js')
 
-const cli = meow({
+const cli = meow(`
+  Usage:
+    $ npx hacktoberfeststats <username from GitHub>
+
+  Options
+    --help, -h  Get this beautiful help panel
+    --year, -y  Specify the year you want to get stats from. Useful if you want to retrieve historic data from previous hacktoberfest events.
+
+  Examples
+    $  npx hacktoberfeststats MatejMecka --year 2019
+
+`,{
   flags: {
     year: {
       type: 'number',
