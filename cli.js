@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict'
 var meow = require('meow')
 var hacktoberFest = require('./main.js')
