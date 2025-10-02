@@ -31,8 +31,8 @@
   "homepage": "https://github.com/MatejMecka/hacktoberfeststats#readme",
   "dependencies": {
     "meow": "^14.0.0",
+    "node-fetch": "^3.3.2",
     "package.json": "^0.0.0",
-    "request": "^2.88.2"
   },
   "devDependencies": {
     "chai": "^6.2.0",
