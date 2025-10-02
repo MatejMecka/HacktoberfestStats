@@ -11,6 +11,8 @@ const getMinPullRequests = year => {
   switch (year) {
   case 2018:
     return 5
+  case 2025:
+    return 6
   default:
     return 4
   }
