@@ -1,5 +1,5 @@
 'use strict'
-var request = require('request')
+import fetch from 'node-fetch'
 
 const gitHubAPIURLs = {
   getUser: 'https://api.github.com/users/%username%',
@@ -7,7 +7,7 @@ const gitHubAPIURLs = {
     'https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%'
 }
 
-const getMinPullRequests = year => {
+const getMinPullRequests = (year) => {
   switch (year) {
   case 2018:
     return 5
@@ -16,7 +16,7 @@ const getMinPullRequests = year => {
   }
 }
 
-const _checkForValidYear = year => {
+const _checkForValidYear = (year) => {
   let currentYear = new Date().getFullYear()
   if (year > currentYear) {
     throw new Error('Invalid year provided. The year must be less than or equal to the current year')
@@ -26,27 +26,25 @@ const _checkForValidYear = year => {
   }
 }
 
-const _query = url =>
-  new Promise((resolve, reject) => {
-    request.get(
-      {
-        url: url,
-        headers: { 'User-Agent': 'request' }
-      },
-      (err, res, data) => {
-        if (!err && res.statusCode == 200) resolve(data)
-        reject(err)
-      }
-    )
+const _query = async (url) => {
+  const response = await fetch(url, {
+    headers: { 'User-Agent': 'request' }
   })
+  
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`)
+  }
+  
+  return response.text()
+}
 
 const _processResult = (url, callback, transform) => {
   if (callback) {
     _query(url)
       .then(jsonPipe)
-      .then(data => (transform ? transform(data) : data))
-      .then(result => callback(result))
-      .catch(err => {
+      .then((data) => (transform ? transform(data) : data))
+      .then((result) => callback(result))
+      .catch((err) => {
         throw new Error(
           'There was a problem retrieving information for this account. Error Message: ' + (err ? err.message : '')
         )
@@ -54,11 +52,12 @@ const _processResult = (url, callback, transform) => {
   } else {
     return _query(url)
       .then(jsonPipe)
-      .then(data => (transform ? transform(data) : data))
+      .then((data) => (transform ? transform(data) : data))
   }
 }
 
-const jsonPipe = body => JSON.parse(body)
+const jsonPipe = (body) => JSON.parse(body)
+
 
 /**
  * Returns user information
@@ -71,12 +70,12 @@ const getUserInfo = (username, callback) => {
   return _processResult(url, callback)
 }
 
-const _transformHacktoberfestResult = minPullRequest => statsInfo => ({
+const _transformHacktoberfestResult = (minPullRequest) => (statsInfo) => ({
   completed: !!(statsInfo.total_count >= minPullRequest),
   current: statsInfo.total_count,
   required: minPullRequest,
   progress: statsInfo.total_count + '/' + minPullRequest,
-  contributions: statsInfo.items.map(repo => repo.repository_url)
+  contributions: statsInfo.items.map((repo) => repo.repository_url)
 })
 
 /**
@@ -106,5 +105,4 @@ const getHacktoberfestStats = (username, year, callback) => {
   return _processResult(url, callback, _transformHacktoberfestResult(minPullRequest))
 }
 
-exports.getHacktoberfestStats = getHacktoberfestStats
-exports.getUserInfo = getUserInfo
+export { getUserInfo, getHacktoberfestStats }

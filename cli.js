@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 'use strict'
-var meow = require('meow')
-var hacktoberFest = require('./main.js')
+import meow from 'meow'
+import { getHacktoberfestStats } from './main.js'
 
-const cli = meow(`
+const cli = meow(
+  `
   Usage:
     $ npx hacktoberfeststats <username from GitHub>
 
@@ -15,26 +16,28 @@ const cli = meow(`
   Examples
     $  npx hacktoberfeststats MatejMecka --year 2019
 
-`,{
-  flags: {
-    year: {
-      type: 'number',
-      alias: 'y',
-      default: 0,
+`,
+  {
+    flags: {
+      year: {
+        type: 'number',
+        shortFlag: 'y',
+        default: 0
+      },
+      help: {
+        type: 'boolean',
+        shortFlag: 'h'
+      }
     },
-    help: {
-      type: 'boolean',
-      alias: 'h',
-    },
-  },
-})
+    importMeta: import.meta
+  }
+)
 
 if (cli.flags.help) {
   cli.showHelp(0)
 }
 
-hacktoberFest
-  .getHacktoberfestStats(cli.input[0], cli.flags.year)
+getHacktoberfestStats(cli.input[0], cli.flags.year)
   .then((stats) => {
     console.log(stats)
   })
