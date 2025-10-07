@@ -7,6 +7,11 @@ const gitHubAPIURLs = {
     'https://api.github.com/search/issues?per_page=1000&q=-label:invalid+created:%year%-09-30T00:00:00-12:00..%year%-10-31T23:59:59-12:00+type:pr+is:public+author:%username%'
 }
 
+/**
+ * Returns the minimum number of pull requests required for Hacktoberfest completion for a given year
+ * @param {number} year - The year to check requirements for
+ * @returns {number} The minimum number of pull requests required (5 for 2018, 6 for 2025, 4 for all other years)
+ */
 const getMinPullRequests = (year) => {
   switch (year) {
   case 2018:
@@ -18,6 +23,13 @@ const getMinPullRequests = (year) => {
   }
 }
 
+/**
+ * Validates that the provided year is within acceptable bounds for Hacktoberfest
+ * @private
+ * @param {number} year - The year to validate
+ * @throws {Error} If year is greater than the current year
+ * @throws {Error} If year is less than 2013 (when Hacktoberfest started)
+ */
 const _checkForValidYear = (year) => {
   let currentYear = new Date().getFullYear()
   if (year > currentYear) {
@@ -28,6 +40,13 @@ const _checkForValidYear = (year) => {
   }
 }
 
+/**
+ * Makes an HTTP request to the specified URL
+ * @private
+ * @param {string} url - The URL to fetch
+ * @returns {Promise<string>} A promise that resolves to the response text
+ * @throws {Error} If the HTTP request fails
+ */
 const _query = async (url) => {
   const response = await fetch(url, {
     headers: { 'User-Agent': 'request' }
@@ -40,6 +59,15 @@ const _query = async (url) => {
   return response.text()
 }
 
+/**
+ * Processes the result of a GitHub API query
+ * @private
+ * @param {string} url - The URL to query
+ * @param {function} [callback] - Optional callback function to handle the result
+ * @param {function} [transform] - Optional transformation function to apply to the parsed data
+ * @returns {Promise|undefined} Returns a promise if no callback is provided, otherwise undefined
+ * @throws {Error} If there's a problem retrieving information from the API
+ */
 const _processResult = (url, callback, transform) => {
   if (callback) {
     _query(url)
@@ -58,6 +86,12 @@ const _processResult = (url, callback, transform) => {
   }
 }
 
+/**
+ * Parses a JSON string into an object
+ * @private
+ * @param {string} body - The JSON string to parse
+ * @returns {Object} The parsed JSON object
+ */
 const jsonPipe = (body) => JSON.parse(body)
 
 
@@ -72,6 +106,18 @@ const getUserInfo = (username, callback) => {
   return _processResult(url, callback)
 }
 
+/**
+ * Transforms GitHub API pull request data into Hacktoberfest statistics
+ * @private
+ * @param {number} minPullRequest - The minimum number of pull requests required
+ * @returns {function} A transformation function that takes GitHub API stats and returns formatted Hacktoberfest stats
+ * @returns {Object} The transformed stats object
+ * @returns {boolean} returns.completed - Whether the user has completed Hacktoberfest requirements
+ * @returns {number} returns.current - The current number of pull requests
+ * @returns {number} returns.required - The required number of pull requests
+ * @returns {string} returns.progress - Progress as a formatted string (e.g., "4/4")
+ * @returns {string[]} returns.contributions - Array of repository URLs where contributions were made
+ */
 const _transformHacktoberfestResult = (minPullRequest) => (statsInfo) => ({
   completed: !!(statsInfo.total_count >= minPullRequest),
   current: statsInfo.total_count,
