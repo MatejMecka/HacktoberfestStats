@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "eslint main.js cli.js && mocha",
-    "format": "node_modules/.bin/prettier-eslint --config ./.prettierrc --write \"**/*.js\""
+    "format": "node_modules/.bin/prettier-eslint --config ./.prettierrc --write \"**/*.js\"",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.32.0",
     "mocha": "^11.7.3",
-    "prettier-eslint-cli": "8.0.1"
+    "prettier-eslint-cli": "8.0.1",
+    "typescript": "^5.9.3"
   }
 }
