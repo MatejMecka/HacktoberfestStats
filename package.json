@@ -36,6 +36,7 @@
     "package.json": "^0.0.0"
   },
   "devDependencies": {
+    "@types/node": "^24.7.2",
     "chai": "^6.2.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "15.0.0",
