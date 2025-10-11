@@ -1,9 +1,9 @@
-import { getHacktoberfestStats } from './main'
+import { getHacktoberfestStats } from './main';
 
-getHacktoberfestStats('MatejMecka', 2017, function (hacktoberfestStats) {
-  console.log(hacktoberfestStats)
-})
+getHacktoberfestStats('MatejMecka', 2017, (hacktoberfestStats) => {
+  console.log(hacktoberfestStats);
+});
 
-getHacktoberfestStats('MatejMecka', function (hacktoberfestStats) {
-  console.log(hacktoberfestStats)
-})
+getHacktoberfestStats('MatejMecka', (hacktoberfestStats) => {
+  console.log(hacktoberfestStats);
+});

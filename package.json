@@ -5,11 +5,13 @@
   "main": "main.js",
   "type": "module",
   "bin": {
-    "hacktoberfeststats": "./cli.js"
+    "hacktoberfeststats": ".built/cli.js"
   },
   "scripts": {
-    "test": "eslint main.js cli.js && mocha",
-    "format": "node_modules/.bin/prettier-eslint --config ./.prettierrc --write \"**/*.js\"",
+    "test": "npm run lint && mocha -r ts-node/register \"test/**/*.test.ts\"",
+    "lint": "npx eslint main.ts cli.ts example.ts",
+    "lint:fix": "eslint main.ts cli.ts example.ts --fix",
+    "format": "prettier --write \"**/*.{ts,js}\"",
     "build": "tsc"
   },
   "repository": {
@@ -36,13 +38,18 @@
     "package.json": "^0.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.37.0",
     "@types/node": "^24.7.2",
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
     "chai": "^6.2.0",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-plugin-import": "2.32.0",
+    "eslint": "^9.37.0",
+    "eslint-plugin-import": "2.26.0",
     "mocha": "^11.7.3",
-    "prettier-eslint-cli": "8.0.1",
-    "typescript": "^5.9.3"
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0"
   }
 }
